@@ -1,0 +1,1 @@
+# ya-object-storage
