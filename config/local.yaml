@@ -1,0 +1,11 @@
+env: "local" #prod, dev
+s3:
+    region: "ru-central1"
+    bucket: "ya-backet"
+    url: "https://storage.yandexcloud.net"
+    access_key: "access_key"
+    secret_key: "secret_key"
+http_server:
+    port: 8089
+    user: "s3user"
+    password: "s3password"
