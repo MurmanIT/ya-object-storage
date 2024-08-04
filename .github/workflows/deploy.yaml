@@ -30,13 +30,13 @@ jobs:
             
             - name: Prepare version
               run: |
-              echo "TAG_NAME=latest" >> $GITHUB_ENV
-              if [ "${{ github.event.release.tag_name }}" != "" ]; then
-                echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
-              fi;
-              if [ "${{ github.event.inputs.version }}" != "" ]; then
-                echo "TAG_NAME=${{ github.event.inputs.version }}" >> $GITHUB_ENV
-              fi;
+                echo "TAG_NAME=latest" >> $GITHUB_ENV
+                if [ "${{ github.event.release.tag_name }}" != "" ]; then
+                  echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+                fi;
+                if [ "${{ github.event.inputs.version }}" != "" ]; then
+                  echo "TAG_NAME=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+                fi;
             
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
