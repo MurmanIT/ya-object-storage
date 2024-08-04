@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+    workflow_dispatch:
+        inputs:
+            version:
+                description: 'Version'
+                required: true
+                default: 'latest'
+
+jobs:
+    push_to_registry:
+        runs-on: ubuntu-latest
+        environment: production
+        if: ${{ github.event.workflow_run.conclusion != 'failure' }}
+        steps:
+            - name: Check out the repo
+              uses: actions/checkout@v3
+              with:
+                ref: ${{github.event.commit_id}}
+
+            - name: Prepare image repository
+              run: echo "image_repository_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+            
+            - name: Prepare version
+              run: |
+              echo "TAG_NAME=latest" >> $GITHUB_ENV
+              if [ "${{ github.event.release.tag_name }}" != "" ]; then
+                echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+              fi;
+              if [ "${{ github.event.inputs.version }}" != "" ]; then
+                echo "TAG_NAME=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+              fi;
+            
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+              

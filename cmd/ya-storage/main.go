@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log/slog"
 	"ya-storage/internal/config"
+	"ya-storage/pkg/logger"
 )
 
 func main() {
@@ -11,10 +13,14 @@ func main() {
 		fmt.Errorf("config error: %s", err)
 		return
 	}
-	fmt.Println(cfg)
+	logger := logger.Init(cfg)
+	logger = logger.With(
+		slog.String("env", cfg.Env),
+		slog.Int("port", cfg.HttpServer.Port),
+	)
+	logger.Info("Logger initialized")
 }
 
-// TODO: init logger
 // TODO: init server
 // TODO: init storage
 // TODO: run server

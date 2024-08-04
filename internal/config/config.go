@@ -16,7 +16,7 @@ type S3 struct {
 }
 
 type HttpServer struct {
-	Port string `yaml:"port" env-required:"true" env-default:"8080"`
+	Port int    `yaml:"port" env-required:"true" env-default:"8080"`
 	User string `yaml:"user" env-required:"true"`
 	Pass string `yaml:"password" env-required:"true" env: "HTTP_SERVER_PASSWORD"`
 }
