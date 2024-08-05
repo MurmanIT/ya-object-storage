@@ -3,7 +3,7 @@ package shttp
 import (
 	"log/slog"
 	"ya-storage/internal/config"
-	"ya-storage/internal/transport/middleware/custom_logger"
+	custom_logger "ya-storage/internal/transport/middleware"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"

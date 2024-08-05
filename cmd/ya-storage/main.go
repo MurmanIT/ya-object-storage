@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"ya-storage/internal/config"
+	"ya-storage/internal/transport/rest"
 	"ya-storage/pkg/logger"
 )
 
@@ -19,8 +20,6 @@ func main() {
 		slog.Int("port", cfg.HttpServer.Port),
 	)
 	logger.Info("Logger initialized")
+	server := rest.Init(cfg, logger)
+	server.Run()
 }
-
-// TODO: init server
-// TODO: init storage
-// TODO: run server
