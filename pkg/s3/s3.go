@@ -2,13 +2,20 @@ package s3
 
 import (
 	"log/slog"
+	"sync"
 	"ya-storage/internal/config"
 )
 
 type S3Handler struct {
-	//Session *session.Session
+	S3     *config.S3
+	Logger *slog.Logger
 }
 
-func Init(cfg *config.Config, logger *slog.Logger) *S3Handler {
-	return &S3Handler{}
+var wg sync.WaitGroup
+
+func Init(ConfigS3 *config.S3, logger *slog.Logger) *S3Handler {
+	return &S3Handler{
+		S3:     ConfigS3,
+		Logger: logger,
+	}
 }

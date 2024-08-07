@@ -30,7 +30,7 @@ func Init(cfg *config.Config, logger *slog.Logger) *ServerRest {
 
 func (s *ServerRest) Run() {
 
-	upload.UploadFiles(s.logger, s.router)
+	upload.UploadFiles(&s.cfg.S3, s.logger, s.router)
 
 	port := fmt.Sprint(":", s.cfg.HttpServer.Port)
 	s.logger.Info("Starting server", slog.String("port", port))
