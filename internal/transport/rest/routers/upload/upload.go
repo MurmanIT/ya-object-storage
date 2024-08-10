@@ -21,12 +21,17 @@ func UploadFiles(ConfigS3 *config.S3, log *slog.Logger, router *chi.Mux) {
 	router.Route("/upload", func(r chi.Router) {
 		r.Put("/", uploadFile(log, ConfigS3))
 		r.Get("/", printObject(log, ConfigS3))
+		r.Delete("/", deleteObject(log, ConfigS3))
 	})
 }
 
 func printObject(log *slog.Logger, ConfigS3 *config.S3) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// sh3 := s3.Init(ConfigS3, log)
+	}
+}
+
+func deleteObject(log *slog.Logger, ConfigS3 *config.S3) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 	}
 }
 

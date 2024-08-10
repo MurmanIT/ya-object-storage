@@ -1,16 +1,16 @@
 package s3
 
 import (
-	"fmt"
 	"log/slog"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
-func (h *S3Handler) Echo() {
+func (h *S3Handler) Echo() []string {
 	sess := getSession(h.S3)
 	s3Svc := s3.New(sess)
+	listObject := []string{}
 
 	objects, err := s3Svc.ListObjectsV2(&s3.ListObjectsV2Input{
 		Bucket: aws.String(h.S3.Bucket),
@@ -21,8 +21,7 @@ func (h *S3Handler) Echo() {
 	}
 
 	for _, object := range objects.Contents {
-		fmt.Println(*object.Key)
+		listObject = append(listObject, *object.Key)
 	}
-
-	wg.Wait()
+	return listObject
 }
