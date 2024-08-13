@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    env_file: .env
+    image: ghcr.io/${IMAGE_REPO}:${RELEASE_VERSION}    
+    container_name: ya-token    
+    network_mode: host
+    volumes:
+      - files: /app/files
+
+volumes:
+  files: 
+    driver: local

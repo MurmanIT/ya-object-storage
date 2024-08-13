@@ -21,10 +21,15 @@ type HttpServer struct {
 	Pass string `yaml:"password" env-required:"true" env: "HTTP_SERVER_PASSWORD"`
 }
 
+type UploadDir struct {
+	Dir string `yaml:"dir" env-required:"true" env-default:"./files" env:"UPLOAD_FILES_DIR"`
+}
+
 type Config struct {
 	Env        string     `yaml:"env" env-default:"dev" env-required:"true"`
 	S3         S3         `yaml:"s3"`
 	HttpServer HttpServer `yaml:"http_server"`
+	UploadDir  UploadDir
 }
 
 func LoadConfig() (*Config, error) {

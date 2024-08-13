@@ -13,6 +13,11 @@ import (
 	"github.com/go-chi/render"
 )
 
+type ResponseUpload struct {
+	response.ResponseStatus
+	Link string `json:"link"`
+}
+
 func UploadFiles(ConfigS3 *config.S3, log *slog.Logger, router *chi.Mux) {
 	log = log.With(
 		slog.String("component", "upload"),
@@ -47,7 +52,7 @@ func uploadFile(log *slog.Logger, ConfigS3 *config.S3) http.HandlerFunc {
 		}
 
 		sh3 := s3.Init(ConfigS3, log)
-		sh3.UploadFile(filepath, name)
+		link := sh3.UploadFile(filepath, name)
 
 		if err != nil {
 			render.JSON(w, r, response.Error(
@@ -55,7 +60,11 @@ func uploadFile(log *slog.Logger, ConfigS3 *config.S3) http.HandlerFunc {
 			))
 			return
 		}
-		log.Info("File uploaded", slog.String("path", filepath))
+
+		render.JSON(w, r, ResponseUpload{
+			ResponseStatus: response.Ok(),
+			Link:           link,
+		})
 	}
 }
 
@@ -71,15 +80,15 @@ func fileSendToServer(r *http.Request, log *slog.Logger) (filePath string, name 
 	log.Info("Upload file", slog.String("name", handler.Filename))
 	log.Info("File size", slog.Int64("size", handler.Size))
 
-	f, err := os.OpenFile("./files/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+	filePath = "./files/" + handler.Filename
+
+	f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		log.Error("Failed to open file", slog.String("error", err.Error()))
 		return "", "", err
 	}
 	defer f.Close()
 	io.Copy(f, file)
-
-	filePath = "./files/" + handler.Filename
 
 	return filePath, handler.Filename, nil
 }
