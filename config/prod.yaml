@@ -1,0 +1,10 @@
+env: "prod" #local, prod, dev
+s3:
+    region: "ru-central1"
+    bucket: "ya-backet"
+    url: "https://storage.yandexcloud.net"
+http_server:
+    port: 8089
+    user: "s3user"    
+upload:
+    dir_files: "./files"

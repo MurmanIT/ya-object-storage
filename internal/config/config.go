@@ -26,10 +26,10 @@ type UploadDir struct {
 }
 
 type Config struct {
-	Env        string     `yaml:"env" env-default:"dev" env-required:"true"`
-	S3         S3         `yaml:"s3"`
-	HttpServer HttpServer `yaml:"http_server"`
-	UploadDir  UploadDir
+	Env        string `yaml:"env" env-default:"dev" env-required:"true"`
+	S3         `yaml:"s3"`
+	HttpServer `yaml:"http_server"`
+	UploadDir  `yaml:"upload_dir"`
 }
 
 func LoadConfig() (*Config, error) {
